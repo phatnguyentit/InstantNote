@@ -1,0 +1,16 @@
+﻿<Window x:Class="InstantNote.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:InstantNote"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="112.074" Width="814.517">
+    <Grid Margin="0,0,423,0">
+        <Label Content="Title" HorizontalAlignment="Left" Margin="27,3,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.26,0.321"/>
+        <TextBox Name="TxtTitle" HorizontalAlignment="Left" Height="23" Margin="118,6,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="233"/>
+        <Label Content="Content&#xD;&#xA;" HorizontalAlignment="Left" Margin="27,37,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.26,0.321"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="118,40,0,0" TextWrapping="Wrap" Name="TxtContent" KeyDown="TxtContent_OnKeyDown" Text="" VerticalAlignment="Top" Width="233"/>
+
+    </Grid>
+</Window>
