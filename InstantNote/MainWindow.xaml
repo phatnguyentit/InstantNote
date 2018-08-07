@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InstantNote"
         mc:Ignorable="d"
-        Title="MainWindow" Height="112.074" Width="814.517">
-    <Grid Margin="0,0,423,0">
+        Title="MainWindow" Height="112.074" Width="392.517" KeyUp="MainWindow_OnKeyUp">
+    <Grid Margin="0,0,2,0">
         <Label Content="Title" HorizontalAlignment="Left" Margin="27,3,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.26,0.321"/>
         <TextBox Name="TxtTitle" HorizontalAlignment="Left" Height="23" Margin="118,6,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="233"/>
         <Label Content="Content&#xD;&#xA;" HorizontalAlignment="Left" Margin="27,37,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.26,0.321"/>

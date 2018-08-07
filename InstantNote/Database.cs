@@ -2,31 +2,33 @@
 using System.Collections.Generic;
 using System.IO;
 using InstantNote.Models;
+using Newtonsoft.Json;
 
 namespace InstantNote
 {
     public class Database
     {
-        public List<Note> Notes { get; set; }
+        public static List<Note> Notes { get; set; }
 
-        private const string FileDirectory = "Data";
-
-        public static void WriteJson()
+        public static void WriteJson(string filePath = "")
         {
-            if (!Directory.Exists($"{FileDirectory}"))
+            if (filePath == "")
             {
-                Directory.CreateDirectory(FileDirectory);
+                filePath = Path.Combine(Constants.Folder, Helper.GetTodayFileName());
             }
-
-            var dateString = $"{DateTime.Now:yyyy-MM-dd}.json";
-            File.Create(Path.Combine(FileDirectory, dateString));
+            
+            using (var writer = new StreamWriter(filePath))
+            {
+                writer.Write(JsonConvert.SerializeObject(Notes));
+            }
         }
 
-        public void LoadJson()
+        public static List<Note> LoadJson(string fileName)
         {
-            Notes = new List<Note>();
+            using (var streamReader = new StreamReader(Path.Combine(Constants.Folder, fileName)))
+            {
+                return JsonConvert.DeserializeObject<List<Note>>(streamReader.ReadToEnd());
+            }
         }
-
-
     }
 }

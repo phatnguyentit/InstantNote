@@ -3,7 +3,7 @@
     public enum NoteCommand
     {
         Save,
-        GetLastOne,
+        GetLastDay,
         GetLastFive
     }
 }

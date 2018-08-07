@@ -1,8 +1,5 @@
-﻿using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls.Primitives;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Navigation;
 using InstantNote.Enums;
 using InstantNote.Services;
 
@@ -13,12 +10,13 @@ namespace InstantNote
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly NoteStoreServices _noteStoreServices;
+        private readonly NoteServices _noteServices;
 
         public MainWindow()
         {
             InitializeComponent();
-            _noteStoreServices = new NoteStoreServices();
+            TxtTitle.Focus();
+            _noteServices = new NoteServices();
         }
 
         private void TxtContent_OnKeyDown(object sender, KeyEventArgs e)
@@ -36,20 +34,26 @@ namespace InstantNote
             switch (command)
             {
                 case NoteCommand.Save:
-                    _noteStoreServices.SaveNote(TxtTitle.Text, TxtContent.Text);
+                    _noteServices.SaveNote(TxtTitle.Text, TxtContent.Text);
                     break;
 
-                case NoteCommand.GetLastOne:
-                    _noteStoreServices.GetNotes(1);
+                case NoteCommand.GetLastDay:
+                    var note = _noteServices.GetNotes(1);
                     break;
 
                 case NoteCommand.GetLastFive:
                     break;
+            }
+        }
 
-                
+        private void MainWindow_OnKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F5)
+            {
+                ExecuteCommand(NoteCommand.GetLastFive);
             }
         }
     }
 
-    
+
 }
