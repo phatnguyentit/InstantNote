@@ -19,7 +19,7 @@ namespace InstantNote.Services
             {
                 Title = title,
                 Content = content,
-                DateTime = DateTime.Now.Date
+                DateTime = DateTime.Now
             });
             Database.WriteFile();
         }

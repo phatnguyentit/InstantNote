@@ -39,10 +39,14 @@ namespace InstantNote
 
         public static void VerifyTodayFile()
         {
+            if (!Directory.Exists(Constants.Folder))
+            {
+                Directory.CreateDirectory(Constants.Folder);
+            }
             var filePath = Path.Combine(Constants.Folder, Helper.GetTodayFileName());
             if (!File.Exists(filePath))
             {
-                File.Create(filePath);
+                File.Create(filePath).Close();
             }
         }
 
