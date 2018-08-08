@@ -14,28 +14,30 @@ namespace InstantNote.Services
 
         public void SaveNote(string title, string content)
         {
-            if (!Database.Notes.Any())
-            {
-                Database.Notes = LoadTodayNote();
-            }
-
+            GetNotes(1);
             Database.Notes.Add(new Note
             {
                 Title = title,
                 Content = content,
-                DateTime = DateTime.Now.ToLongTimeString()
+                DateTime = DateTime.Now.Date
             });
-            Database.WriteJson();
+            Database.WriteFile();
         }
 
         public List<Note> GetNotes(short days)
         {
-            return new List<Note>();
-        }
+            var fileNames = Enumerable.Range(0, days)
+                .Select(day => $"{DateTime.Now.AddDays(-day).ToString(Constants.DateFormat)}.json").ToList();
+            Database.Clean();
+            Database.VerifyTodayFile();
 
-        private List<Note> LoadTodayNote()
-        {
-            return Database.LoadJson(Helper.GetTodayFileName());
+            foreach (var fileName in fileNames)
+            {
+                Database.LoadFile(fileName);
+            }
+            
+            return Database.Notes;
         }
+        
     }
 }

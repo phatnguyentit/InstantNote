@@ -6,7 +6,7 @@ namespace InstantNote
     {
         public static string GetTodayFileName()
         {
-            return $"{DateTime.Now.ToString(Constants.FileNameFormat)}.json";
+            return $"{DateTime.Now.ToString(Constants.DateFormat)}.json";
         }
     }
 }

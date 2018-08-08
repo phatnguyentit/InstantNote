@@ -1,6 +1,9 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Text;
+using System.Windows;
 using System.Windows.Input;
 using InstantNote.Enums;
+using InstantNote.Models;
 using InstantNote.Services;
 
 namespace InstantNote
@@ -11,21 +14,49 @@ namespace InstantNote
     public partial class MainWindow : Window
     {
         private readonly NoteServices _noteServices;
+        private NoteListWindow _noteList;
+        private List<Note> _notes;
 
         public MainWindow()
         {
             InitializeComponent();
             TxtTitle.Focus();
             _noteServices = new NoteServices();
+            _notes = new List<Note>();
         }
 
         private void TxtContent_OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                // Store note and close
                 ExecuteCommand(NoteCommand.Save);
                 Close();
+            }
+        }
+
+        private void MainWindow_OnKeyUp(object sender, KeyEventArgs e)
+        {
+            if (((int)e.Key) > 89 && ((int)e.Key) < 100)
+            {
+                var data = string.Empty;
+                switch (e.Key)
+                {
+                    case Key.F1:
+                        ExecuteCommand(NoteCommand.GetToday);
+                        break;
+
+                    case Key.F2:
+                        ExecuteCommand(NoteCommand.GetLastTwo);
+                        break;
+
+                    case Key.F5:
+                        ExecuteCommand(NoteCommand.GetLastFive);
+                        break;
+                }
+
+                _noteList = new NoteListWindow();
+                _noteList.txtData.Text = FormatData();
+                _noteList.Show();
             }
         }
 
@@ -37,21 +68,29 @@ namespace InstantNote
                     _noteServices.SaveNote(TxtTitle.Text, TxtContent.Text);
                     break;
 
-                case NoteCommand.GetLastDay:
-                    var note = _noteServices.GetNotes(1);
+                case NoteCommand.GetToday:
+                    _notes = _noteServices.GetNotes(1);
+                    break;
+
+                case NoteCommand.GetLastTwo:
+                    _notes = _noteServices.GetNotes(2);
                     break;
 
                 case NoteCommand.GetLastFive:
+                    _notes = _noteServices.GetNotes(5);
                     break;
             }
         }
 
-        private void MainWindow_OnKeyUp(object sender, KeyEventArgs e)
+        private string FormatData()
         {
-            if (e.Key == Key.F5)
+            _notes.Reverse();
+            var stringBuilder = new StringBuilder();
+            foreach (var note in _notes)
             {
-                ExecuteCommand(NoteCommand.GetLastFive);
+                stringBuilder.Append($"{note.DateTime.ToString(Constants.DateTimeFormat)}   ##   {note.Title}   ##   {note.Content}\n");
             }
+            return stringBuilder.ToString();
         }
     }
 
