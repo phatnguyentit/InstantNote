@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="NoteList" Height="450" Width="800">
     <Grid>
-        <TextBlock HorizontalAlignment="Left" FontSize="20" Name="txtData" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="419" Width="792"/>
+        <TextBlock FontSize="20" Name="txtData" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="419"/>
 
     </Grid>
 </Window>

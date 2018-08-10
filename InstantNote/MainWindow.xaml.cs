@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
@@ -69,28 +70,28 @@ namespace InstantNote
                     break;
 
                 case NoteCommand.GetToday:
-                    _notes = _noteServices.GetNotes(1);
-                    break;
-
                 case NoteCommand.GetLastTwo:
-                    _notes = _noteServices.GetNotes(2);
-                    break;
-
                 case NoteCommand.GetLastFive:
-                    _notes = _noteServices.GetNotes(5);
+                    _notes = _noteServices.GetNotes((short)command);
                     break;
             }
         }
 
         private string FormatData()
         {
-            _notes.Reverse();
+            _notes = _notes.OrderByDescending(x => x.DateTime).ToList();
             var stringBuilder = new StringBuilder();
             foreach (var note in _notes)
             {
                 stringBuilder.Append($"{note.DateTime.ToString(Constants.DateTimeFormat)}   ##   {note.Title}   ##   {note.Content}\n");
             }
             return stringBuilder.ToString();
+        }
+
+        private void TxtTitle_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && !string.IsNullOrEmpty(TxtTitle.Text))
+                TxtContent.Focus();
         }
     }
 
